@@ -11,30 +11,30 @@ podTemplate(label: 'kubernetes',
         sh "mvn -Dmaven.test.failure.ignore clean package"
       }
       stage('test') {
-        // junit '**/target/surefire-reports/TEST-*.xml'
         withCredentials([string(credentialsId: 'sonar', variable: 'sonar')]) {
-          sh "mvn sonar:sonar -Dsonar.host.url=http://sonar.k8s.city -Dsonar.login=${sonar}"
+          sh "mvn sonar:sonar -Dsonar.junit.reportsPath=target/surefire-reports -Dtarget/test-classes -Dsonar.host.url=http://sonar.k8s.city -Dsonar.login=${sonar}"
         }
       }
       stage('archive') {
-        // archive 'target/*.jar'
-        withCredentials([string(credentialsId: 'nexus', variable: 'nexus')]) {
-          nexusArtifactUploader(
-            nexusVersion: 'nexus3',
-            protocol: 'https',
-            nexusUrl: 'nexus.k8s.city',
-            version: '3.9.0',
-            repository: 'simple-maven-project',
-            credentialsId: "${nexus}",
-            artifact: [
-              artifactId: 'simple-maven-project-uploader',
+        nexusArtifactUploader(
+          nexusVersion: 'nexus3',
+          protocol: 'https',
+          nexusUrl: 'nexus.k8s.city',
+          groupId: 'demo',
+          version: '1.0',
+          repository: 'maven-releases',
+          credentialsId: 'nexus',
+          artifacts: [
+            [
+              artifactId: 'simple-maven-project-with-tests-jar',
               type: 'jar',
               classifier: 'debug',
-              file: 'target/*.jar'
+              file: 'target/simple-maven-project-with-tests-1.0-SNAPSHOT.jar'
             ]
-          )
-        }
+          ]
+        )
       }
     }
   }
 }
+
