@@ -16,20 +16,25 @@ podTemplate(label: 'kubernetes',
         }
       }
       stage('archive') {
+        pom = readMavenPom file: "pom.xml"
+        version = pom.version
+        if (version.contains("-SNAPSHOT")) {
+          (version) = version.split("-SNAPSHOT")
+        }
         nexusArtifactUploader(
-          nexusVersion: 'nexus3',
-          protocol: 'https',
-          nexusUrl: 'nexus.k8s.city',
-          groupId: 'demo',
-          version: '2.0',
-          repository: 'maven-releases',
-          credentialsId: 'nexus',
+          nexusVersion: "nexus3",
+          protocol: "https",
+          nexusUrl: "nexus.k8s.city",
+          groupId: "demo",
+          version: version,
+          repository: "maven-releases",
+          credentialsId: "nexus",
           artifacts: [
             [
-              artifactId: 'simple-maven-project-with-tests-jar',
-              type: 'jar',
-              classifier: 'debug',
-              file: 'target/simple-maven-project-with-tests-1.0-SNAPSHOT.jar'
+              artifactId: "simple-maven-project-with-tests-jar",
+              type: "jar",
+              classifier: "debug",
+              file: "target/simple-maven-project-with-tests-${pom.version}.jar"
             ]
           ]
         )
@@ -37,4 +42,3 @@ podTemplate(label: 'kubernetes',
     }
   }
 }
-
