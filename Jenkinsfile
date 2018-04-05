@@ -21,7 +21,7 @@ podTemplate(label: 'kubernetes',
           protocol: 'https',
           nexusUrl: 'nexus.k8s.city',
           groupId: 'demo',
-          version: '1.0',
+          version: '2.0',
           repository: 'maven-releases',
           credentialsId: 'nexus',
           artifacts: [
