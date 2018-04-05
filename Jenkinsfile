@@ -19,20 +19,20 @@ podTemplate(label: 'kubernetes',
       stage('archive') {
         // archive 'target/*.jar'
         withCredentials([string(credentialsId: 'nexus', variable: 'nexus')]) {
-          nexusArtifactUploader {
-            nexusVersion('nexus3')
-            protocol('https')
-            nexusUrl('nexus.k8s.city')
-            version('3.9.0')
-            repository('simple-maven-project')
-            credentialsId("${nexus}")
-            artifact {
-              artifactId('simple-maven-project-uploader')
-              type('jar')
-              classifier('debug')
-              file('target/*.jar')
-            }
-          }
+          nexusArtifactUploader(
+            nexusVersion: 'nexus3',
+            protocol: 'https',
+            nexusUrl: 'nexus.k8s.city',
+            version: '3.9.0',
+            repository: 'simple-maven-project',
+            credentialsId: "${nexus}",
+            artifact: [
+              artifactId: 'simple-maven-project-uploader',
+              type: 'jar',
+              classifier: 'debug',
+              file: 'target/*.jar'
+            ]
+          )
         }
       }
     }
