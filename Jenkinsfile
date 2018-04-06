@@ -17,16 +17,12 @@ podTemplate(label: 'kubernetes',
       }
       stage('archive') {
         pom = readMavenPom file: "pom.xml"
-        version = pom.version
-        if (version.contains("-SNAPSHOT")) {
-          (version) = version.split("-SNAPSHOT")
-        }
         nexusArtifactUploader(
           nexusVersion: "nexus3",
           protocol: "https",
           nexusUrl: "nexus.k8s.city",
           groupId: "demo",
-          version: version,
+          version: BUILD_NUMBER,
           repository: "maven-releases",
           credentialsId: "nexus",
           artifacts: [
@@ -42,3 +38,4 @@ podTemplate(label: 'kubernetes',
     }
   }
 }
+
