@@ -8,6 +8,7 @@ podTemplate(label: 'kubernetes',
         git 'https://github.com/cvega/simple-maven-project-with-tests.git';
       }
       stage('build') {
+        sh "sed -i.bak s/3.0-SNAPSHOT/${BUILD_NUMBER}.0-SNAPSHOT/g pom.xml"
         sh "mvn -Dmaven.test.failure.ignore clean package"
       }
       stage('test') {
@@ -30,7 +31,7 @@ podTemplate(label: 'kubernetes',
               artifactId: "simple-maven-project-with-tests",
               type: "jar",
               classifier: "debug",
-              file: "target/simple-maven-project-with-tests-${pom.version}.jar"
+              file: "target/simple-maven-project-with-tests-${BUILD_NUMBER}.jar"
             ]
           ]
         )
