@@ -34,7 +34,7 @@ podTemplate(label: 'kubernetes',
             ]
           ]
         )
-        sh "java -jar simple-maven-project-with-tests-${pom.version}.jar"
+        sh "java -jar simple-maven-project-with-tests-${BUILD_NUMBER}.jar"
       }
     }
   }
