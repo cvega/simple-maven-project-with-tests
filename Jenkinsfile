@@ -27,14 +27,14 @@ podTemplate(label: 'kubernetes',
           credentialsId: "nexus",
           artifacts: [
             [
-              artifactId: "simple-maven-project-with-tests-jar",
+              artifactId: "simple-maven-project-with-tests",
               type: "jar",
               classifier: "debug",
               file: "target/simple-maven-project-with-tests-${pom.version}.jar"
             ]
           ]
         )
-        sh "java -jar simple-maven-project-with-tests-jar-${BUILD_NUMBER}-debug.jar"
+        sh "java -jar simple-maven-project-with-tests-${BUILD_NUMBER}-debug.jar"
       }
     }
   }
