@@ -1,5 +1,3 @@
-// changing stuff
-
 podTemplate(label: 'kubernetes',
   containers: [
     containerTemplate(name: 'maven', image: 'maven:3.5.2-jdk-8-alpine', ttyEnabled: true, command: 'cat')
@@ -33,13 +31,11 @@ podTemplate(label: 'kubernetes',
               artifactId: "simple-maven-project-with-tests",
               type: "jar",
               classifier: "debug",
-              file: "target/simple-maven-project-with-tests-${BUILD_NUMBER}.jar"
+              file: "target/simple-maven-project-with-tests-${BUILD_NUMBER}.0-SNAPSHOT.jar"
             ]
           ]
         )
-        sh "java -jar simple-maven-project-with-tests-${BUILD_NUMBER}-debug.jar"
       }
     }
   }
 }
-
