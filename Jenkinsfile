@@ -20,7 +20,7 @@ podTemplate(label: 'kubernetes',
         build 'docker-build'
       }
       stage('archive') {
-        if (BRANCH == 'master') {
+        if (env.BRANCH == 'master') {
         pom = readMavenPom file: "pom.xml"
         nexusArtifactUploader(
           nexusVersion: "nexus3",
