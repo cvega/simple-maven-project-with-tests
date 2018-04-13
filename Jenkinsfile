@@ -19,8 +19,8 @@ podTemplate(label: 'kubernetes',
       stage('docker build') {
         build 'docker-build'
       }
+      if (env.BRANCH == 'master') {
       stage('archive') {
-        if (env.BRANCH == 'master') {
           pom = readMavenPom file: "pom.xml"
           nexusArtifactUploader(
             nexusVersion: "nexus3",
@@ -42,10 +42,9 @@ podTemplate(label: 'kubernetes',
         }
       }
       stage('k8s deploy') {
-        if (env.BRANCH == 'master') {
-          // k8s deploy "kubectl rolling-update NAME -f FILE"
-          sh "sleep 5"
-        }
+        // k8s deploy "kubectl rolling-update NAME -f FILE"
+        sh "sleep 5"
+      }
       }
     }
   }
