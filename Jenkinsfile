@@ -21,25 +21,31 @@ podTemplate(label: 'kubernetes',
       }
       stage('archive') {
         if (env.BRANCH == 'master') {
-        pom = readMavenPom file: "pom.xml"
-        nexusArtifactUploader(
-          nexusVersion: "nexus3",
-          protocol: "https",
-          nexusUrl: "nexus.k8s.city",
-          groupId: "demo",
-          version: BUILD_NUMBER,
-          repository: "maven-releases",
-          credentialsId: "nexus",
-          artifacts: [
-            [
-              artifactId: "simple-maven-project-with-tests",
-              type: "jar",
-              classifier: "debug",
-              file: "target/simple-maven-project-with-tests-${BUILD_NUMBER}.0-SNAPSHOT.jar"
+          pom = readMavenPom file: "pom.xml"
+          nexusArtifactUploader(
+            nexusVersion: "nexus3",
+            protocol: "https",
+            nexusUrl: "nexus.k8s.city",
+            groupId: "demo",
+            version: BUILD_NUMBER,
+            repository: "maven-releases",
+            credentialsId: "nexus",
+            artifacts: [
+              [
+                artifactId: "simple-maven-project-with-tests",
+                type: "jar",
+                classifier: "debug",
+                file: "target/simple-maven-project-with-tests-${BUILD_NUMBER}.0-SNAPSHOT.jar"
+              ]
             ]
-          ]
-        )
+          )
+        }
       }
+      stage('k8s deploy') {
+        if (env.BRANCH == 'master') {
+          // k8s deploy "kubectl rolling-update NAME -f FILE"
+          sh "sleep 5"
+        }
       }
     }
   }
