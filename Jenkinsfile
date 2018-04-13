@@ -16,7 +16,7 @@ podTemplate(label: 'kubernetes',
           sh "mvn sonar:sonar -Dsonar.junit.reportsPath=target/surefire-reports -Dtarget/test-classes -Dsonar.host.url=http://sonar.k8s.city -Dsonar.login=${sonar}"
         }
       }
-      stage('test') {
+      stage('docker build') {
         build 'docker-build'
       }
       stage('archive') {
