@@ -16,7 +16,11 @@ podTemplate(label: 'kubernetes',
           sh "mvn sonar:sonar -Dsonar.junit.reportsPath=target/surefire-reports -Dtarget/test-classes -Dsonar.host.url=http://sonar.k8s.city -Dsonar.login=${sonar}"
         }
       }
+      stage('test') {
+        build 'docker-build'
+      }
       stage('archive') {
+        if (BRANCH == 'master') {
         pom = readMavenPom file: "pom.xml"
         nexusArtifactUploader(
           nexusVersion: "nexus3",
@@ -35,6 +39,7 @@ podTemplate(label: 'kubernetes',
             ]
           ]
         )
+      }
       }
     }
   }
